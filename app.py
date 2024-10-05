@@ -52,7 +52,7 @@ def change_language():
  #   img = np.expand_dims(img, axis=0)
  #   img = img / 255.0  # Normalize to [0, 1]
  #   return img
-
+@app.route('/cultivation', methods=['GET'])
 @app.route('/cultivation')
 def cultivation():
     return render_template('maize_cultivation.html')
