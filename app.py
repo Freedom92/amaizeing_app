@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory
 from flask_socketio import SocketIO, emit
+import tensorflow as tf
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 import numpy as np
@@ -23,7 +24,13 @@ classes = [
 ]
 
 # Load the pre-trained model
-model = load_model('stack_ensemble_using_svm.h5.h5')
+interpreter = tf.lite.Interpreter(model_path='stack_ensemble_using_svm.tflite')
+
+# Get input and output tensors
+input_details = interpreter.get_input_details()
+output_details = interpreter.get_output_details()
+
+interpreter.allocate_tensors()
 
 # Supported languages
 LANGUAGES = ['en', 'es', 'fr']
@@ -44,6 +51,15 @@ def change_language():
     if selected_language in LANGUAGES:
         session['language'] = selected_language
     return redirect(url_for('index'))
+
+# Function to make predictions with TFLite model
+def predict_with_tflite_model(img):
+    # Set the input tensor
+    interpreter.set_tensor(input_details[0]['index'], img)
+    interpreter.invoke()  # Run the model
+    # Get the output tensor
+    output_data = interpreter.get_tensor(output_details[0]['index'])
+    return output_data
 
 # Function to prepare an image for prediction
 def prepare_image(image_path):
@@ -192,7 +208,6 @@ def index():
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-# Prediction route
 @app.route('/predict', methods=['POST'])
 def predict():
     if 'file' not in request.files or request.files['file'].filename == '':
@@ -203,8 +218,8 @@ def predict():
     file.save(file_path)
     img = prepare_image(file_path)
 
-    # Make prediction
-    predictions = model.predict(img)
+    # Make prediction using TFLite model
+    predictions = predict_with_tflite_model(img)
     predicted_index = np.argmax(predictions)
     predicted_class = classes[predicted_index]
     confidence = round(predictions[0][predicted_index] * 100, 2)
