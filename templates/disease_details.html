@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="{{ get_locale() }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ _("Maize Disease Details") }}</title>
+    <style>
+        /* Your CSS styles... */
+    </style>
+</head>
+<body>
+    <h1>{{ _("Maize Disease Details") }}</h1>
+
+    {% for disease in diseases %}
+        <div class="disease-card">
+            <h2>{{ disease.name }}</h2>
+            <p>{{ _("Symptoms:") }} {{ disease.symptoms }}</p>
+            <p>{{ _("Triggers:") }} {{ disease.triggers }}</p>
+            <p>{{ _("Agrochemical Treatment:") }} {{ disease.agrochemicals }}</p>
+            <p>{{ _("Biological Remedy:") }} {{ disease.biological_remedy }}</p>
+        </div>
+    {% endfor %}
+
+    <a href="{{ url_for('index') }}">{{ _("Back to Home") }}</a>
+</body>
+</html>

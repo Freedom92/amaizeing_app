@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Durban Weather Forecast</title>
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='images/maize_background.jpg') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #fff;
+            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
+
+        .app-name {
+            font-size: 36px;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px #000;
+            margin-bottom: 20px;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .navbar a {
+            padding: 12px 20px;
+            margin: 0 10px;
+            border-radius: 30px;
+            background-color: #28a745; /* Green button */
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: #218838; /* Darker green on hover */
+            transform: translateY(-3px);
+        }
+
+        /* Darker weather forecast card */
+        .weather-card {
+            background-color: rgba(0, 0, 0, 0.8); /* Darker background */
+            color: #fff; /* White text for better contrast */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        .weather-card h3 {
+            font-size: 22px;
+            color: #FFD700; /* Gold color for day names */
+            margin-bottom: 10px;
+        }
+
+        .weather-details {
+            margin: 10px 0;
+        }
+
+        .weather-details strong {
+            color: #FFD700; /* Gold color for details */
+        }
+
+        .weather-icon {
+            width: 40px;
+            height: 40px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="app-name">Amaizeing App</h1>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <a href="{{ url_for('weather') }}">My Weather Forecast</a>
+        <a href="{{ url_for('diseases') }}">Maize Diseases</a>
+        <a href="{{ url_for('cultivation') }}"> Maize Cultivation Tips</a>
+        <a href="{{ url_for('chat') }}">Maize Farmer Chat Community</a>
+    </div>
+
+    <h1>Durban Weather Forecast</h1>
+   
+    <!-- Weather Forecast for the Next 5 Days -->
+    {% for day in weather_data %}
+    <div class="weather-card">
+        <h3>{{ day.day }} - {{ day.date }}</h3>
+        <div class="weather-details">
+            <p><strong>Condition:</strong> {{ day.condition }} <img class="weather-icon" src="{{ url_for('static', filename='images/' ~ day.icon) }}" alt="{{ day.condition }} Icon"></p>
+            <p><strong>Temperature:</strong> {{ day.high }}°C (High), {{ day.low }}°C (Low)</p>
+            <p><strong>Humidity:</strong> {{ day.humidity }}%</p>
+            <p><strong>Wind Speed:</strong> {{ day.wind_speed }} km/h</p>
+        </div>
+    </div>
+    {% endfor %}
+</body>
+</html>

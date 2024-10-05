@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maize Diseases Information</title>
+    <style>
+        body {
+            background-image: url('{{ url_for('static', filename='images/maize_background.jpg') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: #333;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .app-name {
+            font-size: 48px;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px #000;
+            margin-bottom: 20px;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        h1 {
+            background-color: rgba(0, 0, 0, 0.5);
+            display: inline-block;
+            padding: 10px;
+            border-radius: 5px;
+            color: #fff;
+        }
+
+        .disease-card {
+            background: rgba(255, 255, 255, 0.8);
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            text-align: left;
+            display: none; 
+        }
+
+        .disease-card.visible {
+            display: block;
+        }
+
+        .disease-card img {
+            max-width: 200px;
+            float: right;
+            margin-left: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .load-more {
+            margin: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .load-more:hover {
+            background-color: #0056b3;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-name">Amaizeing App</div>
+    <h1>Maize Diseases</h1>
+
+    {% for disease in diseases %}
+    <div class="disease-card{% if loop.index <= 2 %} visible{% endif %}" id="disease-{{ loop.index }}">
+        <h2>{{ disease.name }}</h2>
+        <img src="{{ url_for('static', filename='images/' + disease.image) }}" alt="{{ disease.name }}">
+        <p><strong>Description:</strong> {{ disease.description }}</p>
+        <p><strong>Cause:</strong> {{ disease.cause }}</p>
+        <p><strong>Season:</strong> {{ disease.season }}</p>
+        <p><strong>Symptoms:</strong> {{ disease.symptoms }}</p>
+        <p><strong>How to Combat:</strong> {{ disease.combat }}</p>
+    </div>
+    {% endfor %}
+
+    <button class="load-more" onclick="loadMore()">Load More Maize Diseases</button>
+
+    <a href="{{ url_for('index') }}" class="back-link">← Go Diagnose Your Maize Image</a>
+
+    <script>
+        let visibleCards = 2; // initially visible
+        function loadMore() {
+            const cards = document.querySelectorAll('.disease-card');
+            let count = 0;
+
+            cards.forEach((card) => {
+                if (card.classList.contains('visible')) return;
+                if (count < 2) {
+                    card.classList.add('visible');
+                    count++;
+                }
+            });
+
+            if (Array.from(cards).every(card => card.classList.contains('visible'))) {
+                document.querySelector('.load-more').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
