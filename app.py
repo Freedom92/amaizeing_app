@@ -215,9 +215,9 @@ def weather():
     
     # Dummy weather data for 5 days
     weather_data = [
-        {'condition': 'Partly Cloudy', 'high': 24, 'low': 18, 'humidity': 78, 'wind_speed': 15, 'icon': 'Monday.png'},
-        {'condition': 'Sunny', 'high': 28, 'low': 19, 'humidity': 65, 'wind_speed': 10, 'icon': 'Tuesday.png'},
-        {'condition': 'Light Rain', 'high': 22, 'low': 17, 'humidity': 85, 'wind_speed': 12, 'icon': 'wednesday.png'},
+        {'condition': 'Sunny', 'high': 21, 'low': 10, 'humidity': 64, 'wind_speed': 20, 'icon': 'Tuesday.png'},
+        {'condition': 'Sunny', 'high': 25, 'low': 21, 'humidity': 65, 'wind_speed': 23, 'icon': 'Tuesday.png'},
+        {'condition': 'Partly Cloudy Rain', 'high': 22, 'low': 17, 'humidity': 85, 'wind_speed': 12, 'icon': 'Monday.png'},
         {'condition': 'Thunderstorms', 'high': 23, 'low': 18, 'humidity': 90, 'wind_speed': 18, 'icon': 'Thursday.png'},
         {'condition': 'Overcast', 'high': 25, 'low': 19, 'humidity': 80, 'wind_speed': 14, 'icon': 'Friday.png'}
     ]
