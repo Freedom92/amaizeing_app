@@ -1,8 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, session, send_from_directory
 from flask_socketio import SocketIO, emit
-import tensorflow as tf
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing.image import img_to_array, load_img
+#from tensorflow.keras.models import load_model
+#from tensorflow.keras.preprocessing.image import img_to_array, load_img
 import numpy as np
 import os
 import requests
@@ -24,13 +23,7 @@ classes = [
 ]
 
 # Load the pre-trained model
-interpreter = tf.lite.Interpreter(model_path='stack_ensemble_using_svm.tflite')
-
-# Get input and output tensors
-input_details = interpreter.get_input_details()
-output_details = interpreter.get_output_details()
-
-interpreter.allocate_tensors()
+#model = load_model('stack_ensemble_using_svm.h5')
 
 # Supported languages
 LANGUAGES = ['en', 'es', 'fr']
@@ -52,22 +45,13 @@ def change_language():
         session['language'] = selected_language
     return redirect(url_for('index'))
 
-# Function to make predictions with TFLite model
-def predict_with_tflite_model(img):
-    # Set the input tensor
-    interpreter.set_tensor(input_details[0]['index'], img)
-    interpreter.invoke()  # Run the model
-    # Get the output tensor
-    output_data = interpreter.get_tensor(output_details[0]['index'])
-    return output_data
-
 # Function to prepare an image for prediction
-def prepare_image(image_path):
-    img = load_img(image_path, target_size=(224, 224))
-    img = img_to_array(img)
-    img = np.expand_dims(img, axis=0)
-    img = img / 255.0  # Normalize to [0, 1]
-    return img
+#def prepare_image(image_path):
+ #   img = load_img(image_path, target_size=(224, 224))
+ #   img = img_to_array(img)
+ #   img = np.expand_dims(img, axis=0)
+ #   img = img / 255.0  # Normalize to [0, 1]
+ #   return img
 
 @app.route('/cultivation')
 def cultivation():
@@ -186,28 +170,19 @@ def diseases():
     return render_template('diseases.html', diseases=disease_info)
   
 
-# Get weather forecast from an external API
-def get_weather_forecast(location="Durban"):
-    api_key = "your_weather_api_key"  # Replace with your OpenWeatherMap API key
-    weather_url = f"http://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}&units=metric"
-    response = requests.get(weather_url)
-    if response.status_code == 200:
-        return response.json()
-    return None
-
 # Index route
 @app.route('/', methods=['GET'])
 def index():
     language = session.get('language', 'en')
-    translations = load_translations(language)
-    weather_data = get_weather_forecast()  # Fetch weather data
-    return render_template('index.html', translations=translations, weather=weather_data)
+    translations = load_translations(language)   
+    return render_template('index.html', translations=translations)
 
 # Route to serve uploaded files
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
+# Prediction route
 @app.route('/predict', methods=['POST'])
 def predict():
     if 'file' not in request.files or request.files['file'].filename == '':
@@ -218,8 +193,8 @@ def predict():
     file.save(file_path)
     img = prepare_image(file_path)
 
-    # Make prediction using TFLite model
-    predictions = predict_with_tflite_model(img)
+    # Make prediction
+    predictions = model.predict(img)
     predicted_index = np.argmax(predictions)
     predicted_class = classes[predicted_index]
     confidence = round(predictions[0][predicted_index] * 100, 2)
@@ -268,3 +243,5 @@ def handle_message(data):
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
+
+
