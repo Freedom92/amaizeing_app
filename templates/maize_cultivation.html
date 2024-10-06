@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maize Farmer Chat Community</title>
+    <title>Maize Cultivation Tips</title>
     <style>
         body {
             background-image: url('{{ url_for('static', filename='images/maize_background.jpg') }}');
@@ -48,111 +48,68 @@
             transform: translateY(-3px);
         }
 
-        .chat-container {
-            background-color: rgba(0, 0, 0, 0.8);
-            border-radius: 10px;
+        .content {
+            background-color: rgba(0, 0, 0, 0.7);
             padding: 20px;
-            margin-top: 40px;
-            max-width: 800px;
-            margin: auto;
+            border-radius: 10px;
+            margin-top: 40px; /* Add more space between navbar and content */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            margin-top: 60px; /* Added more space between navbar and chat */
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .chat-header {
+        h1, h2 {
             color: #FFD700;
-            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            text-align: left;
+            color: #fff;
             margin-bottom: 20px;
+            line-height: 1.6;
         }
 
-        .chat-box {
-            max-height: 500px;
-            overflow-y: auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            color: #000;
+        ul {
+            text-align: left;
+            color: #fff;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
 
-        .message {
-            display: flex;
+        .tips-section {
+            margin-top: 20px;
+        }
+
+        .tips-section h2 {
+            font-size: 24px;
+        }
+
+        .tips-section ul {
+            list-style-type: square;
+            padding-left: 20px;
+        }
+
+        .tips-section ul li {
             margin-bottom: 10px;
         }
 
-        .message .user {
-            font-weight: bold;
-            margin-right: 10px;
-        }
-
-        .message .time {
-            color: #999;
-            font-size: 12px;
-            margin-left: auto;
-        }
-
-        .message:nth-child(odd) {
-            background-color: #f1f1f1;
-        }
-
-        .message:nth-child(even) {
-            background-color: #e9e9e9;
-        }
-
-        .message-content {
-            padding: 10px;
-            border-radius: 5px;
-            flex-grow: 1;
-        }
-
-        .user-1 {
-            color: #28a745;
-        }
-
-        .user-2 {
-            color: #007BFF;
-        }
-
-        .user-3 {
-            color: #FF5733;
-        }
-
-        .user-4 {
-            color: #8E44AD;
-        }
-
-        .user-5 {
-            color: #E67E22;
-        }
-
-        .chat-input {
-            margin-top: 20px;
-            display: flex;
-        }
-
-        .chat-input input {
-            flex-grow: 1;
-            padding: 10px;
-            border-radius: 30px;
-            border: 2px solid #ccc;
-            font-size: 16px;
-        }
-
-        .chat-input button {
+        .cta-button {
             padding: 12px 25px;
-            margin-left: 10px;
-            border-radius: 30px;
             background-color: #28a745;
             color: white;
+            text-decoration: none;
             font-weight: bold;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 20px;
         }
 
-        .chat-input button:hover {
+        .cta-button:hover {
             background-color: #218838;
+            transform: translateY(-3px);
         }
-
     </style>
 </head>
 <body>
@@ -166,91 +123,75 @@
         <a href="{{ url_for('chat') }}">Maize Farmer Chat Community</a>
     </div>
 
-    <!-- Chat Section -->
-    <div class="chat-container">
-        <h2 class="chat-header">Maize Farmer Chat Community</h2>
+    <div class="content">
+        <h1>Maize Cultivation Tips</h1>
+        <p>
+            Maize is one of the most important cereal crops in the world. Whether you're a small-scale farmer or looking to grow maize on a larger scale, following the best cultivation practices can significantly increase your yield. Here are some useful tips for maize cultivation:
+        </p>
 
-        <div class="chat-box">
-            <!-- Dummy messages -->
-            <div class="message">
-                <div class="message-content">
-                    <span class="user user-1">John_Farmer:</span>
-                    <span>Hey everyone, what’s the best fertilizer for improving maize growth?</span>
-                    <span class="time">10:05 AM</span>
-                </div>
-            </div>
-
-            <div class="message">
-                <div class="message-content">
-                    <span class="user user-2">GreenThumb24:</span>
-                    <span>I’d recommend nitrogen-based fertilizers during the early growth stages. Works wonders for me!</span>
-                    <span class="time">10:07 AM</span>
-                </div>
-            </div>
-
-            <div class="message">
-                <div class="message-content">
-                    <span class="user user-3">Sunny_Side:</span>
-                    <span>Has anyone dealt with armyworms? They are destroying my crop this year!</span>
-                    <span class="time">10:10 AM</span>
-                </div>
-            </div>
-
-            <div class="message">
-                <div class="message-content">
-                    <span class="user user-4">MaizeMaster:</span>
-                    <span>@Sunny_Side, you should try some biological control methods. Parasitoids like Trichogramma help reduce armyworm populations.</span>
-                    <span class="time">10:12 AM</span>
-                </div>
-            </div>
-
-            <div class="message">
-                <div class="message-content">
-                    <span class="user user-5">Happy_Harvest:</span>
-                    <span>I'm using a hybrid maize variety and my yield has increased by 30%! Highly recommend it to you all.</span>
-                    <span class="time">10:15 AM</span>
-                </div>
-            </div>
-
-            <div class="message">
-                <div class="message-content">
-                    <span class="user user-1">John_Farmer:</span>
-                    <span>That’s awesome! I’m considering hybrid seeds next season. Which one are you using?</span>
-                    <span class="time">10:17 AM</span>
-                </div>
-            </div>
-
-            <div class="message">
-                <div class="message-content">
-                    <span class="user user-2">GreenThumb24:</span>
-                    <span>I think it’s Pioneer Hybrid 30G97. It’s a solid choice, especially in our climate.</span>
-                    <span class="time">10:19 AM</span>
-                </div>
-            </div>
-
-            <div class="message">
-                <div class="message-content">
-                    <span class="user user-3">Sunny_Side:</span>
-                    <span>@MaizeMaster, thanks! I’ll look into that. Do I need to reapply or is it a one-time treatment?</span>
-                    <span class="time">10:22 AM</span>
-                </div>
-            </div>
-
-            <div class="message">
-                <div class="message-content">
-                    <span class="user user-4">MaizeMaster:</span>
-                    <span>You’ll need to monitor the crops and reapply depending on the infestation level. It’s all about timing.</span>
-                    <span class="time">10:25 AM</span>
-                </div>
-            </div>
+        <div class="tips-section">
+            <h2>1. Soil Preparation</h2>
+            <ul>
+                <li>Choose well-drained, loamy soil for optimal maize growth.</li>
+                <li>Test your soil to ensure it has a pH between 5.5 and 7.0.</li>
+                <li>Add organic compost or manure to enrich the soil with nutrients.</li>
+            </ul>
         </div>
 
-        <!-- Chat Input Box (for display purposes) -->
-        <div class="chat-input">
-            <input type="text" placeholder="Type a message..." disabled>
-            <button disabled>Send</button>
+        <div class="tips-section">
+            <h2>2. Selecting the Right Seeds</h2>
+            <ul>
+                <li>Choose high-yielding, disease-resistant maize varieties for your region.</li>
+                <li>Consider hybrid maize seeds if you're aiming for higher production.</li>
+                <li>Consult with local agricultural experts to find the best seeds for your climate.</li>
+            </ul>
         </div>
+
+        <div class="tips-section">
+            <h2>3. Planting Time</h2>
+            <ul>
+                <li>In tropical regions, maize is best planted at the start of the rainy season.</li>
+                <li>Ensure that soil moisture is adequate during planting to support seed germination.</li>
+                <li>Space seeds 75 cm apart in rows to avoid overcrowding and allow for optimal growth.</li>
+            </ul>
+        </div>
+
+        <div class="tips-section">
+            <h2>4. Irrigation and Water Management</h2>
+            <ul>
+                <li>Ensure consistent watering, especially during flowering and grain filling stages.</li>
+                <li>Avoid over-irrigation, which can cause root rot and poor aeration.</li>
+                <li>Drip irrigation systems are recommended for efficient water use.</li>
+            </ul>
+        </div>
+
+        <div class="tips-section">
+            <h2>5. Fertilization</h2>
+            <ul>
+                <li>Apply nitrogen-based fertilizers at the early stages of growth for strong plant development.</li>
+                <li>Use phosphorus fertilizers during planting to stimulate root growth.</li>
+                <li>Follow local recommendations on fertilizer quantities and application schedules.</li>
+            </ul>
+        </div>
+
+        <div class="tips-section">
+            <h2>6. Pest and Disease Control</h2>
+            <ul>
+                <li>Regularly inspect your maize crops for common pests like fall armyworms.</li>
+                <li>Apply biological or chemical controls as necessary to prevent major damage.</li>
+                <li>Rotate crops yearly to minimize the risk of soil-borne diseases.</li>
+            </ul>
+        </div>
+
+        <div class="tips-section">
+            <h2>7. Harvesting and Storage</h2>
+            <ul>
+                <li>Harvest maize when the kernels are hard and the moisture content is between 20-25%.</li>
+                <li>Dry harvested maize to a moisture level below 13% for long-term storage.</li>
+                <li>Store maize in clean, dry conditions to avoid pest infestation and fungal growth.</li>
+            </ul>
+        </div>
+
     </div>
-
 </body>
 </html>
